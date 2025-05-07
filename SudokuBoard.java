@@ -41,6 +41,7 @@ public class SudokuBoard {
    }
 
    private boolean hasNoDuplicates() {
+       
        // Check for duplicates in each row
        for (int r = 0; r < board.length; r++) {
            Set<Integer> rowSet = new HashSet<>();
@@ -72,7 +73,7 @@ public class SudokuBoard {
    }
 
     
-      private int[][] miniSquare(int[][] board , int spot) {
+   private int[][] miniSquare(int[][] board , int spot) {
       int[][] mini = new int[3][3];
       for(int r = 0; r < 3; r++) {
          for(int c = 0; c < 3; c++) {
@@ -132,7 +133,13 @@ public class SudokuBoard {
           return isValid();
     }
 
+   public boolean solve(){
+      if(isSolved()){
+         return true;
+      }
 
+      return true;
+   }
 
   
    public String toString() {
