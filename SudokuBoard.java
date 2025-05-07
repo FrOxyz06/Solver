@@ -100,7 +100,6 @@ public class SudokuBoard {
             }
          }
        }
-     System.out.println("pass duplicates");
      return true;
     }
 
@@ -137,14 +136,17 @@ public class SudokuBoard {
       if(isSolved()){
          return true;
       }
+      if(!isValid()){
+         return false;
+      }
       
       for(int r = 0 ; r < board.length ; r++){
-         for(int c = 0 ; c < board[r].length ; r++){
+         for(int c = 0 ; c < board[r].length ; c++){
             if(board[r][c] == 0){
                for(int num = 1 ; num <= 9 ; num++){
-                  if(isSolved()){
+                  //if(isValid()){
                      board[r][c] = num;
-                  }
+                  //}
                   if(solve()){
                      return true;
                   }
@@ -154,7 +156,7 @@ public class SudokuBoard {
          
       }
    }
-   return true;
+   return false;
   }
    public String toString() {
       String build = " -----------------\n";
