@@ -161,6 +161,7 @@ public class SudokuBoard {
                     // If not solved, backtrack by resetting the cell to 0
                     board[r][c] = 0;
                 }
+                // If no number (1-9) worked in this cell, backtrack further
                 return false;
             }
         }
