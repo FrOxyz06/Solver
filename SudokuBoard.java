@@ -132,32 +132,42 @@ public class SudokuBoard {
           return isValid();
     }
 
-   public boolean solve(){
-      if(isSolved()){
-         return true;
-      }
-      if(!isValid()){
-         return false;
-      }
-      
-      for(int r = 0 ; r < board.length ; r++){
-         for(int c = 0 ; c < board[r].length ; c++){
-            if(board[r][c] == 0){
-               for(int num = 1 ; num <= 9 ; num++){
-                  //if(isValid()){
-                     board[r][c] = num;
-                  //}
-                  if(solve()){
-                     return true;
-                  }
-                  board[r][c] = 0;
-               }
-            } 
-         
-      }
-   }
-   return false;
-  }
+   
+   public boolean solve() {
+    // Base case: if the puzzle is already solved, return true
+    if (isSolved()) {
+        return true;
+    }
+    
+    // Base case: if current board state is invalid, backtrack
+    if (!isValid()) {
+        return false;
+    }
+    
+    // Iterate through each cell in the board
+    for (int r = 0; r < board.length; r++) {
+        for (int c = 0; c < board[r].length; c++) {
+            if (board[r][c] == 0) {
+                
+                // Try all possible numbers (1-9) in this cell
+                for (int num = 1; num <= 9; num++) {
+                    
+                    board[r][c] = num;
+                    // Recursively attempt to solve with this number placed
+                    if (solve()) {
+                        return true;
+                    }
+                    
+                    // If not solved, backtrack by resetting the cell to 0
+                    board[r][c] = 0;
+                }
+                return false;
+            }
+        }
+    }
+    return false;
+}  
+   
    public String toString() {
       String build = " -----------------\n";
       for(int r = 0; r < board.length; r++) {
