@@ -137,11 +137,25 @@ public class SudokuBoard {
       if(isSolved()){
          return true;
       }
-
-      return true;
+      
+      for(int r = 0 ; r < board.length ; r++){
+         for(int c = 0 ; c < board[r].length ; r++){
+            if(board[r][c] == 0){
+               for(int num = 1 ; num <= 9 ; num++){
+                  if(isSolved()){
+                     board[r][c] = num;
+                  }
+                  if(solve()){
+                     return true;
+                  }
+                  board[r][c] = 0;
+               }
+            } 
+         
+      }
    }
-
-  
+   return true;
+  }
    public String toString() {
       String build = " -----------------\n";
       for(int r = 0; r < board.length; r++) {
