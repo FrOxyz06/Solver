@@ -6,29 +6,22 @@ public class SudokuBoard {
    
    public SudokuBoard(String filename) {
       board = new int[9][9];
-      try {
-         Scanner file = new Scanner(new File(filename));
-         
-         for(int r = 0; r < 9; r++) {
+      try (Scanner file = new Scanner(new File(filename))) {
+         for (int r = 0; r < 9; r++) {
+            if (!file.hasNextLine()) throw new IllegalArgumentException("Expected nine rows.");
             String line = file.nextLine();
-            for(int c = 0; c < 9; c++) {
-               Scanner lineScan = new Scanner(line);
-               char num = lineScan.next().charAt(c);
-               if(num == '.') {
-                  board[r][c] = 0;
-               }else {
-                  board[r][c] = num - '0';
-               }
+            if (!line.matches("[1-9.]{9}")) throw new IllegalArgumentException("Expected nine digits or periods per row.");
+            for (int c = 0; c < 9; c++) {
+               char value = line.charAt(c);
+               board[r][c] = value == '.' ? 0 : value - '0';
             }
          }
-         
-      } catch(FileNotFoundException e) {
-         System.out.println("Cannot load: " + filename);
-      } catch(InputMismatchException e) {
-         System.out.println(filename + " does not meet format expectations.");
+         if (file.hasNextLine()) throw new IllegalArgumentException("Expected exactly nine rows.");
+      } catch (FileNotFoundException e) {
+         throw new IllegalArgumentException("Cannot load: " + filename, e);
       }
    }
-   
+
    private boolean empty(){
       for(int r = 0; r < board.length ; r++){
          for(int c= 0 ; c < board[r].length ; c++){
@@ -108,6 +101,9 @@ public class SudokuBoard {
    }
    
    public boolean isSolved() {
+       for (int[] row : board) {
+           for (int value : row) if (value == 0) return false;
+       }
        Map<Integer,Integer> solve = new TreeMap <Integer,Integer>();
           for(int r = 0; r < board.length ; r++){
              for(int c= 0 ; c < board[r].length ; c++){
